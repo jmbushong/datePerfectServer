@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Profile= require("../db").import("../models/profile");
 
-//POST '/' --- User creates profile
+//POST '/' --- User creates a profile
 
 //GET '/' --- Pulls up profile for individual user
 
