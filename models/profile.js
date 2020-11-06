@@ -20,6 +20,7 @@ module.exports=(sequelize, DataTypes) => {
         }
         
         
+        
     })
     return Profile
 }
