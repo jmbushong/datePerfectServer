@@ -1,7 +1,7 @@
 //This code  validates whether or not a user has permission to access a certain endpoint in your server. Permission is granted through tokens.  
 
 const jwt= require('jsonwebtoken');
-const User= require('../db'.import('../models/user'));
+const User= require('../db').import('../models/user');
 
 //ASYNC STYLE FOR VALIDATION
 module.exports= async (req, res, next) => {
@@ -18,4 +18,3 @@ module.exports= async (req, res, next) => {
     }
 }
 
-module.exports = validateSession;
