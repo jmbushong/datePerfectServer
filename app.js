@@ -4,6 +4,7 @@ const app= Express();
 
 const database= require('./db');
 database.sync();
+//.sync({force:true}); this is for updating
 app.use(Express.json()); //brings in JSON parser for backend
 
 app.use(Express.static(__dirname+ '/public')); //shows us what's in html file
@@ -17,4 +18,9 @@ const profile= require('./controllers/profilecontroller')
 app.use('/profile', profile)
 
 
+
+
+
 app.listen(process.env.PORT, () => console.log(`App is listening on ${process.env.PORT}`))
+
+
