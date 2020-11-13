@@ -10,6 +10,8 @@ database.sync();
 
 app.use(Express.json()); //brings in JSON parser for backend
 
+app.use(require('./middleware/headers'))
+
 app.use(Express.static(__dirname+ '/public')); //shows us what's in html file
 
 app.get('/', (req, res) => res.render('index'))//establishes endpoint to .html

@@ -2,6 +2,8 @@
 
 const jwt= require('jsonwebtoken');
 const User= require('../db').import('../models/user');
+
+
 //ASYNC STYLE FOR VALIDATION
 module.exports= async (req, res, next) => {
     const token= req.headers.authorization; //Postman -- headers (key) Authorization
