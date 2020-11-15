@@ -14,6 +14,9 @@ module.exports=(sequelize, DataTypes) =>{
             validate:{
                 notEmpty:true
             }
+        },
+        url:{
+            type:DataTypes.STRING
         }
     })
     

@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
+const cloudinary= require('cloudinary');
+
+
 
 //POST '/' --- User creates  profile
 router.post('/', validateSession, (req,res) => {
