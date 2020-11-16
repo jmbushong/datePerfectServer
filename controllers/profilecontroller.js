@@ -4,6 +4,9 @@ const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
 
+
+//POST '/' --- User creates profile
+
 const cloudinary= require('cloudinary');
 
 //endpoint for signing pictures
