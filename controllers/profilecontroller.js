@@ -53,7 +53,6 @@ const validateSession = require('../middleware/validate-session');
 
 
 //POST '/' --- User creates  profile
-
 router.post('/', validateSession, (req,res) => {
     const profilePage= {
         name: req.body.profile.name,
