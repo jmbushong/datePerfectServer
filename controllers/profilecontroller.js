@@ -3,6 +3,44 @@ const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
 const cloudinary= require('cloudinary');
 
+//endpoint for signing pictures
+router.get('/cloudsign', validateSession, async(req, res)=>{
+  try{
+      const ts= Math.floor(new Date().getTime() /1000).toString()
+      const sig= cloudinary.utils.api_sign_request(
+          {timestamp: ts, upload_preset: 'datePerfect'},
+          process.env.CLOUDINARY_SECRET
+      )
+      res.status(200).json({
+          sig, ts
+      })
+  } catch(err) {
+      res.status(500).json({
+          message:'failed to sign'
+      })
+  }
+})
+
+//UPDATE PIC
+router.put('/imageset', validateSession, async (req,res)=>{
+  try{
+      const user= await 
+      Profile.findOne({where:{owner:req.user.id}})
+      const result= await user.update({
+          url:req.body.profile.url
+      })
+      res.status(200).json({
+          message: 'avatar url saved',
+          result
+      })
+
+  } catch (err) {
+      res.status(500).json({
+          message:'failed to set image'
+      })
+  }
+})
+
 
 
 //POST '/' --- User creates  profile
@@ -29,6 +67,16 @@ router.get('/', validateSession, function (req, res) {
     .then(profile => res.status(200).json(profile))
     .catch(err=> res.status(500).json({error:err}))
 });
+
+
+
+//GET '/' --- Pulls up all profiles 
+router.get('/all', validateSession, function (req, res) {
+    Profile.findAll()
+    .then(profile => res.status(200).json(profile))
+    .catch(err=> res.status(500).json({error:err}))
+});
+
 
 //PUT '/:id' --- Individual user can update his/her profile
 
