@@ -4,11 +4,11 @@ const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
 
-//POST '/' --- User creates  profile
+//POST '/' --- User creates profile
 router.post('/', validateSession, (req,res) => {
     const profilePage= {
         name: req.body.profile.name,
-        age: req.body.profile.age,
+        // age: req.body.profile.age,
         interestedIn: req.body.profile.interestedIn,
         activities: req.body.profile.activities,
         food: req.body.profile.food,
