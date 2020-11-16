@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
-const validateSession = require('../middleware/validate-session');
+
 
 
 //POST '/' --- User creates  profile
