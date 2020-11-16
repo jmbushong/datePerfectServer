@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
+
 const cloudinary= require('cloudinary');
 
 //endpoint for signing pictures
@@ -42,6 +43,9 @@ router.put('/imageset', validateSession, async (req,res)=>{
 })
 
 
+const validateSession = require('../middleware/validate-session');
+
+
 
 //POST '/' --- User creates  profile
 router.post('/', validateSession, (req,res) => {
@@ -51,13 +55,26 @@ router.post('/', validateSession, (req,res) => {
         interestedIn: req.body.profile.interestedIn,
         activities: req.body.profile.activities,
         food: req.body.profile.food,
-        owner: req.user.id //added
+        owner: req.user.id
     }
-    Profile.create(profilePage)
+    Profile.create(profileEntry)
     .then(profile => res.status(200).json(profile))
-    .catch(err => res.status(500).json({error:err}))
+    .catch(err => res.status(500).json({ error:err}))
 
 })
+
+
+// GET '/:name' ------- Gets an individual's log by name
+router.get('/:name', (req, res) => {
+    let name = req.params.name.toLowerCase();
+
+    Profile.findAll({
+        where: {name : name}
+    })
+    .then(profiles => res.status(200).json(profiles))
+    .catch(err => res.status(500).json({ error: err }))
+})
+
 
 //GET '/' --- Pulls up all profiles for individual user (can we make it so the user only creates one?)
 router.get('/', validateSession, function (req, res) {
@@ -123,6 +140,5 @@ router.get('/:name', (req, res) => {
       error: err
     }))
   });
-  
 
 module.exports= router; 
