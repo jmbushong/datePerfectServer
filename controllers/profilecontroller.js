@@ -1,6 +1,11 @@
+const profile = require('../models/profile');
+
 const router = require('express').Router();
 const validateSession= require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
+
+
+//POST '/' --- User creates profile
 
 const cloudinary= require('cloudinary');
 
@@ -48,10 +53,11 @@ const validateSession = require('../middleware/validate-session');
 
 
 //POST '/' --- User creates  profile
+
 router.post('/', validateSession, (req,res) => {
     const profilePage= {
         name: req.body.profile.name,
-        age: req.body.profile.age,
+        // age: req.body.profile.age,
         interestedIn: req.body.profile.interestedIn,
         activities: req.body.profile.activities,
         food: req.body.profile.food,
@@ -60,6 +66,21 @@ router.post('/', validateSession, (req,res) => {
     Profile.create(profileEntry)
     .then(profile => res.status(200).json(profile))
     .catch(err => res.status(500).json({ error:err}))
+
+
+
+// router.post('/profile', (req, res) => {
+//     Profile.name({ where: { name: req.params.Profile }})
+//       .then(name => res.status(200).json(name))
+//       .catch(err => res.status(500).json({ error: err}))
+
+//   });
+
+//GET '/' --- Pulls up profile for individual user
+
+
+
+//PUT '/:name' --- Individual user can update his/her profile
 
 })
 
@@ -113,6 +134,7 @@ router.put("/:id", validateSession, function(req, res){
        .catch((err) => res.status(500).json({error:err}))
 })
 
+//cdf9fcd9bd981462be86ac02de771170c189c1ec
 
 //DELETE '/:name' --- Individual user can delete his/her profile
 router.delete("/:id", validateSession, function (req, res){

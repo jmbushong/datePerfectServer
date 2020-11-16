@@ -22,6 +22,7 @@ module.exports=(sequelize, DataTypes) => {
         owner: {
             type:DataTypes.INTEGER
         }
+    
         
         
         
