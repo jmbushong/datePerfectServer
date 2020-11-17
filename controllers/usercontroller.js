@@ -3,6 +3,10 @@ const User= require("../db").import("../models/user");
 
 const jwt= require('jsonwebtoken');
 const bcrypt= require('bcryptjs');
+const cloudinary= require('cloudinary');
+const validateSession = require('../middleware/validate-session');
+
+  
 
 //POST: '/signup' ---Use creates an account
 router.post('/signup', (req, res) =>{

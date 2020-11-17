@@ -15,9 +15,14 @@ module.exports=(sequelize, DataTypes) => {
         food: {
             type:DataTypes.STRING
         },
+        url:{
+            type:DataTypes.STRING
+        },
+    
         owner: {
             type:DataTypes.INTEGER
         }
+    
         
         
         
