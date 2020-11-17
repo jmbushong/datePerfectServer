@@ -22,6 +22,7 @@ app.use(Express.json());
 const user = require('./controllers/usercontroller')
 app.use('/user', user);
 
+// app.use(require("./middleware/validate-session"))
 const profile= require('./controllers/profilecontroller')
 app.use('/profile', profile);
 

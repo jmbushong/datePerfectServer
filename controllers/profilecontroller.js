@@ -1,7 +1,8 @@
-const profile = require('../models/profile');
+// const profile = require('../models/profile');
+const validateSession= require('../middleware/validate-session');
 
 const router = require('express').Router();
-const validateSession= require('../middleware/validate-session');
+// const = require('../middleware/validate-session');
 const Profile= require("../db").import("../models/profile");
 
 
@@ -10,7 +11,7 @@ const Profile= require("../db").import("../models/profile");
 const cloudinary= require('cloudinary');
 
 //endpoint for signing pictures
-router.get('/cloudsign', validateSession, async(req, res)=>{
+router.get('/cloudsign',  validateSession, async(req, res)=>{
   try{
       const ts= Math.floor(new Date().getTime() /1000).toString()
       const sig= cloudinary.utils.api_sign_request(
@@ -48,21 +49,21 @@ router.put('/imageset', validateSession, async (req,res)=>{
 })
 
 
-const validateSession = require('../middleware/validate-session');
+// const  = require('../middleware/validate-session');
 
 
 
 //POST '/' --- User creates  profile
-router.post('/', validateSession, (req,res) => {
+router.post('/', (req,res) => {
     const profilePage= {
         name: req.body.profile.name,
-        // age: req.body.profile.age,
+        age: req.body.profile.age,
         interestedIn: req.body.profile.interestedIn,
         activities: req.body.profile.activities,
         food: req.body.profile.food,
         owner: req.user.id
     }
-    Profile.create(profileEntry)
+    Profile.create(profilePage)
     .then(profile => res.status(200).json(profile))
     .catch(err => res.status(500).json({ error:err}))
 
@@ -85,7 +86,7 @@ router.post('/', validateSession, (req,res) => {
 
 
 // GET '/:name' ------- Gets an individual's log by name
-router.get('/:name', (req, res) => {
+router.get('/name/:name', (req, res) => {
     let name = req.params.name.toLowerCase();
 
     Profile.findAll({
@@ -97,7 +98,7 @@ router.get('/:name', (req, res) => {
 
 
 //GET '/' --- Pulls up all profiles for individual user (can we make it so the user only creates one?)
-router.get('/', validateSession, function (req, res) {
+router.get('/', function (req, res) {
     Profile.findAll({
         where: {owner:req.user.id}
     })
@@ -108,7 +109,7 @@ router.get('/', validateSession, function (req, res) {
 
 
 //GET '/' --- Pulls up all profiles 
-router.get('/all', validateSession, function (req, res) {
+router.get('/all', function (req, res) {
     Profile.findAll()
     .then(profile => res.status(200).json(profile))
     .catch(err=> res.status(500).json({error:err}))
@@ -118,7 +119,7 @@ router.get('/all', validateSession, function (req, res) {
 //PUT '/:id' --- Individual user can update his/her profile
 
 
-router.put("/:id", validateSession, function(req, res){
+router.put("/:id", function(req, res){
     const updateProfile= {
        name: req.body.profile.name,
        age: req.body.profile.age,
@@ -136,7 +137,7 @@ router.put("/:id", validateSession, function(req, res){
 //cdf9fcd9bd981462be86ac02de771170c189c1ec
 
 //DELETE '/:name' --- Individual user can delete his/her profile
-router.delete("/:id", validateSession, function (req, res){
+router.delete("/:id", function (req, res){
     const query= {where: {id: req.params.id, owner:req.user.id}};
     Profile.destroy(query)
     .then(()=> res.status(200).json({message: "profile is removed"}))
@@ -150,16 +151,16 @@ router.delete("/:id", validateSession, function (req, res){
 // : tells the code that name is a parameter, meaning a variable in the url
 // when sending a request you do not need the :name, you simply write the name as it appears in the database
 //why does the name appear as null? //Had to be CAPITALIZED! DUH!
-router.get('/:name', (req, res) => {
-    Profile.findAll({
-      where: {
-        name: req.params.name
-      }
-    })
-    .then(profile => res.status(200).json(profile))
-    .catch(err => res.status(500).json({
-      error: err
-    }))
-  });
+// router.get('/:name', (req, res) => {
+//     Profile.findAll({
+//       where: {
+//         name: req.params.name
+//       }
+//     })
+//     .then(profile => res.status(200).json(profile))
+//     .catch(err => res.status(500).json({
+//       error: err
+//     }))
+//   });
 
 module.exports= router; 
