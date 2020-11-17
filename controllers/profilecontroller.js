@@ -109,7 +109,7 @@ router.get('/', function (req, res) {
 
 
 //GET '/' --- Pulls up all profiles 
-router.get('/all', function (req, res) {
+router.get('/all', validateSession, function (req, res) {
     Profile.findAll()
     .then(profile => res.status(200).json(profile))
     .catch(err=> res.status(500).json({error:err}))
