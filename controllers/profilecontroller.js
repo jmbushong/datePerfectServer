@@ -54,13 +54,19 @@ router.put('/imageset', validateSession, async (req,res)=>{
 
 
 //POST '/' --- User creates  profile
-router.post('/', (req,res) => {
+router.post('/', validateSession, (req,res) => {
     const profilePage= {
-        name: req.body.profile.name,
-        age: req.body.profile.age,
+        firstName: req.body.profile.firstName,
+        lastName: req.body.profile.lastName,
+        location: req.body.profile.location,
         interestedIn: req.body.profile.interestedIn,
-        activities: req.body.profile.activities,
-        food: req.body.profile.food,
+        gender: req.body.profile.gender,
+        dateType: req.body.profile.dateType,
+        cuisine: req.body.profile.cuisine,
+        picUrl: req.body.profile.picUrl,
+        bio: req.body.profile.bio,
+        hobbies: req.body.profile.hobbies,
+        email: req.body.profile.email,
         owner: req.user.id
     }
     Profile.create(profilePage)
@@ -99,6 +105,7 @@ router.get('/name/:name', (req, res) => {
 
 //GET '/' --- Pulls up all profiles for individual user (can we make it so the user only creates one?)
 router.get('/', function (req, res) {
+  
     Profile.findAll({
         where: {owner:req.user.id}
     })
@@ -110,10 +117,12 @@ router.get('/', function (req, res) {
 
 //GET '/' --- Pulls up all profiles 
 router.get('/all', validateSession, function (req, res) {
-    Profile.findAll()
+
+    return Profile.findAll()
     .then(profile => res.status(200).json(profile))
     .catch(err=> res.status(500).json({error:err}))
 });
+
 
 
 //PUT '/:id' --- Individual user can update his/her profile
@@ -121,11 +130,18 @@ router.get('/all', validateSession, function (req, res) {
 
 router.put("/:id", function(req, res){
     const updateProfile= {
-       name: req.body.profile.name,
-       age: req.body.profile.age,
-       interestedIn: req.body.profile.interestedIn,
-       activities: req.body.profile.activities,
-       food: req.body.profile.food
+        firstName: req.body.profile.firstName,
+        lastName: req.body.profile.lastName,
+        location: req.body.profile.location,
+        interestedIn: req.body.profile.interestedIn,
+        gender: req.body.profile.gender,
+        dateType: req.body.profile.type,
+        cuisine: req.body.profile.cuisine,
+        picUrl: req.body.profile.picUrl,
+        bio: req.body.profile.bio,
+        hobbies: req.body.profile.hobbies,
+        email: req.body.profile.email,
+        owner: req.user.id
     };
     const query= { where: {id: req.params.id, owner: req.user.id}}
 
