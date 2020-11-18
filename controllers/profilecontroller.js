@@ -34,7 +34,7 @@ router.put('/imageset', validateSession, async (req,res)=>{
       const user= await 
       Profile.findOne({where:{owner:req.user.id}})
       const result= await user.update({
-          url:req.body.profile.url
+          picUrl:req.body.profile.picUrl
       })
       res.status(200).json({
           message: 'avatar url saved',
