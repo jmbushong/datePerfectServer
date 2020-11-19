@@ -14,7 +14,8 @@ module.exports=(sequelize, DataTypes) =>{
             validate:{
                 notEmpty:true
             }
-        }
+        },
+  
     })
     
 
