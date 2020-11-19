@@ -6,6 +6,7 @@ const app= Express();
 const database= require('./db');
 
 database.sync();
+// database.sync({force:true});
 
 app.use(Express.json()); //brings in JSON parser for backend
 
@@ -21,6 +22,7 @@ app.use(Express.json());
 const user = require('./controllers/usercontroller')
 app.use('/user', user);
 
+// app.use(require("./middleware/validate-session"))
 const profile= require('./controllers/profilecontroller')
 app.use('/profile', profile);
 
