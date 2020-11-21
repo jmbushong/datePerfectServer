@@ -92,7 +92,7 @@ router.get("/name/:name", (req, res) => {
 });
 
 //GET '/' --- Pulls up all profiles for individual user (can we make it so the user only creates one?)
-router.get("/", function (req, res) {
+router.get("/", validateSession,function (req, res) {
   Profile.findAll({
     where: { owner: req.user.id },
   })
@@ -115,7 +115,7 @@ router.get("/all", validateSession, function (req, res) {
 
 //PUT '/:id' --- Individual user can update his/her profile
 
-router.put("/:id", function (req, res) {
+router.put("/:id", validateSession, function (req, res) {
   const updateProfile = {
     firstName: req.body.profile.firstName,
     lastName: req.body.profile.lastName,
@@ -140,8 +140,15 @@ router.put("/:id", function (req, res) {
 //cdf9fcd9bd981462be86ac02de771170c189c1ec
 
 //DELETE '/:name' --- Individual user can delete his/her profile
-router.delete("/:id", function (req, res) {
+router.delete("/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
+  Profile.destroy(query)
+    .then(() => res.status(200).json({ message: "profile is removed" }))
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.delete("/", validateSession, function (req, res) {
+  const query = { where: { owner: req.user.id } };
   Profile.destroy(query)
     .then(() => res.status(200).json({ message: "profile is removed" }))
     .catch((err) => res.status(500).json({ error: err }));

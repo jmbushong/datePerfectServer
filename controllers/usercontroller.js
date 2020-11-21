@@ -60,6 +60,13 @@ router.post('/login', (req, res) =>{
     .catch(err=> res.status(500).json({error:err}))
 })
 
+router.delete('/delete', validateSession, (req, res) => {
+    const query = { where: { id: req.user.id } };
+  User.destroy(query)
+    .then(() => res.status(200).json({ message: "user is removed" }))
+    .catch((err) => res.status(500).json({ error: err }));
+    
+})
 
 module.exports= router;
 

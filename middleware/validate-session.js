@@ -6,8 +6,8 @@ const User= require('../db').import('../models/user');
 
 //ASYNC STYLE FOR VALIDATION
 module.exports= async (req, res, next) => {
-    console.log('validating')
     const token= req.headers.authorization; //Postman -- headers (key) Authorization
+    console.log('validating', 'key-->'+token);
     try{
         const decoded= await jwt.verify(token, process.env.JWT_SECRET)
         console.log('decoded', decoded.id)
