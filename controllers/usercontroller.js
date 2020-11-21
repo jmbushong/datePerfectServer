@@ -6,6 +6,7 @@ const bcrypt= require('bcryptjs');
 const cloudinary= require('cloudinary');
 const validateSession = require('../middleware/validate-session');
 
+
   
 
 //POST: '/signup' ---Use creates an account
@@ -24,9 +25,13 @@ router.post('/signup', (req, res) =>{
             message:"user was created successfully",
             sessionToken: token
         })
-    }) .catch(err=> res.status(500).json(err))
- 
+    }) .catch(err=>res.status(500).json(err))
 })
+        
+    //     { if(err instanceof UniqueConstraintError){
+    //     res.status(500).json('username taken')
+    // }else{
+        
 
 
 
