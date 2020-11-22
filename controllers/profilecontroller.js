@@ -1,13 +1,16 @@
 // const profile = require('../models/profile');
 const validateSession = require("../middleware/validate-session");
+var Sequelize = require('sequelize');
 
 const router = require("express").Router();
 // const = require('../middleware/validate-session');
 const Profile = require("../db").import("../models/profile");
 
+const Op=Sequelize.Op; 
 //POST '/' --- User creates profile
 
 const cloudinary = require("cloudinary");
+
 
 //endpoint for signing pictures
 router.get("/cloudsign", validateSession, async (req, res) => {
@@ -81,11 +84,18 @@ router.post("/", validateSession, (req, res) => {
 });
 
 // GET '/:name' ------- Gets an individual's log by name
-router.get("/name/:name", (req, res) => {
-  let name = req.params.name.toLowerCase();
+router.get("/all/:name", validateSession, (req, res) => {
+  let name = req.params.name;
 
   Profile.findAll({
-    where: { name: name },
+    where: {
+      firstName: {
+      [Op.iLike]:`%${name}%`
+      }
+      
+      // firstName: name
+    
+    },
   })
     .then((profiles) => res.status(200).json(profiles))
     .catch((err) => res.status(500).json({ error: err }));
