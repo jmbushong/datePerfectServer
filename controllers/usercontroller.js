@@ -6,6 +6,7 @@ const bcrypt= require('bcryptjs');
 const cloudinary= require('cloudinary');
 const validateSession = require('../middleware/validate-session');
 
+
   
 
 //POST: '/signup' ---Use creates an account
@@ -24,9 +25,13 @@ router.post('/signup', (req, res) =>{
             message:"user was created successfully",
             sessionToken: token
         })
-    }) .catch(err=> res.status(500).json(err))
- 
+    }) .catch(err=>res.status(500).json(err))
 })
+        
+    //     { if(err instanceof UniqueConstraintError){
+    //     res.status(500).json('username taken')
+    // }else{
+        
 
 
 
@@ -60,6 +65,13 @@ router.post('/login', (req, res) =>{
     .catch(err=> res.status(500).json({error:err}))
 })
 
+router.delete('/delete', validateSession, (req, res) => {
+    const query = { where: { id: req.user.id } };
+  User.destroy(query)
+    .then(() => res.status(200).json({ message: "user is removed" }))
+    .catch((err) => res.status(500).json({ error: err }));
+    
+})
 
 module.exports= router;
 
